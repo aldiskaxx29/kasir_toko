@@ -41,7 +41,7 @@
                         <div class="col-md-2">
                           <div class="form-group">
                               <label for="">Quantity</label>
-                              <input type="number" class="form-control qty" placeholder="Jumlah" name="quantity[]">
+                              <input type="number" class="form-control qty0" onchange="calculateHarga(0);" onkeyup="calculateHarga(0);" placeholder="Jumlah" name="quantity[]">
                               @error('quantity')
                                   <small class="text-danger">{{ $message }}</small>
                               @enderror
@@ -50,7 +50,7 @@
                         <div class="col-md-3">
                           <div class="form-group">
                               <label for="">Satuan</label>
-                              <select name="satuan_id[]" class="form-control satuans" id="satuans">
+                              <select name="satuan_id[]" class="form-control satuans0" id="satuans">
                                 {{-- <div id="satuans"></div> --}}
                                   {{-- <option value="">-- Pilihan --</option> --}}
                                   {{-- @foreach ($satuans as $satuan)
@@ -62,7 +62,7 @@
                         <div class="col-md-3">
                           <div class="form-group">
                               <label for="">Harga</label>
-                              <input type="number" name="harga[]" class="form-control harga_satuan0" readonly>
+                              <input type="number" name="harga[]" class="form-control harga_satuan" id="harga_satuan0" readonly>
                           </div>
                         </div>
                         <div class="col-md-1">
@@ -74,10 +74,17 @@
                       </div>
                       <div id="add-form"></div>
                       <div class="row">
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-success btn-sm mt-2 mb-2" id="calculate_total_harga">
+                                Total Harga
+                            </button>
+                        </div>
+                      </div>
+                      <div class="row">
                         <div class="col-md-3">
                           <div class="form-group">
                               <label for="">Total Harga</label>
-                              <input type="number" class="form-control" name="total_harga">
+                              <input type="number" class="form-control" name="total_harga" id="total_harga" readonly>
                           </div> 
                         </div>
                         <div class="col-md-3">
@@ -131,7 +138,7 @@
               <div class="col-md-2">
                 <div class="form-group">
                     <label for="">Quantity</label>
-                    <input type="number" class="form-control qty" placeholder="Jumlah" name="quantity[]">
+                    <input type="number" class="form-control qty`+i+`" onchange="calculateHarga(`+i+`);" onkeyup="calculateHarga(`+i+`);" placeholder="Jumlah" name="quantity[]">
                     @error('quantity')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -140,13 +147,13 @@
               <div class="col-md-3">
                 <div class="form-group">
                     <label for="">Satuan</label>
-                    <select name="satuan_id[]" class="form-control satuans" id="satuans"></select>
+                    <select name="satuan_id[]" class="form-control satuans`+ i +`" id="satuans"></select>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group">
                     <label for="">Harga</label>
-                    <input type="text" name="harga[]" class="form-control harga_satuan`+ i + `" readonly>
+                    <input type="text" name="harga[]" class="form-control harga_satuan" id="harga_satuan`+ i +`" readonly>
                 </div>
               </div>
               <div class="col-md-1">

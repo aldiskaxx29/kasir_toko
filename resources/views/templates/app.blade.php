@@ -94,19 +94,19 @@
             // }
         })
 
-        $(document).on('change', '.qty', function(e) {
-            e.preventDefault();
-            let El = $(this).parent().parent();
-            calculationPrice(El)
-        })
+        // $(document).on('change', '.qty', function(e) {
+        //     e.preventDefault();
+        //     let El = $(this).parent().parent();
+        //     calculationPrice(El)
+        // })
 
-        function calculationPrice(El){
-            let qty = $(El.find('.qty')).val();
-            console.log('qty',qty)
-        }
+        // function calculationPrice(El){
+        //     let qty = $(El.find('.qty')).val();
+        //     console.log('qty',qty)
+        // }
 
         function changeBarang(a) {
-            getBarang(event.target.value).then(barang => {
+            getBarang(event.target.value, a).then(barang => {
                 console.log('apaan', barang)
                 console.log('a', a)
                 
@@ -114,7 +114,7 @@
             })
         }
 
-        async function getBarang(id){
+        async function getBarang(id, i){
             let response = await fetch('/api/produk/' + id)
             let data = await response.json();
             // console.log(data)
@@ -122,10 +122,10 @@
             let satuans = await fetch('/api/barang-satuan/' + data.id)
             let data1 = await satuans.json();
             console.log('satuan ni', data1)
-            
+            $('.satuans'+i).html("");
             data1.forEach(satuan => {
                 // console.log('ada',satuan.harga)
-                $('.satuans').append(`<option value="">${satuan.satuan.satuan} Rp. ${satuan.harga}</option>`)
+                $('.satuans'+i).append(`<option value="${satuan.harga}">${satuan.satuan.satuan} Rp. ${satuan.harga}</option>`)
                 // $('.harga_satuan');
             });
             return data;
@@ -152,6 +152,27 @@
         //     });
         //     return data;
         // }
+
+        function calculateHarga(i) {
+            var qty = $('.qty'+i).val();
+            var satuan = $('.satuans'+i).find("option").filter(":selected").val();;
+
+            var harga_satuan = qty * satuan;
+
+            $('#harga_satuan'+i).val(harga_satuan);
+        }
+
+        $(document).ready(function() {
+            $('#calculate_total_harga').click(function() {
+                var total_harga = 0;
+                
+                $('.harga_satuan').each(function() {
+                    total_harga += +$(this).val();
+                });
+                
+                $('#total_harga').val(total_harga);
+            })
+        })
 
     </script>
     
