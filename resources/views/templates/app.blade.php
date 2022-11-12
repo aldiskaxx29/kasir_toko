@@ -125,7 +125,7 @@
             $('.satuans'+i).html("");
             data1.forEach(satuan => {
                 // console.log('ada',satuan.harga)
-                $('.satuans'+i).append(`<option value="${satuan.harga}">${satuan.satuan.satuan} Rp. ${satuan.harga}</option>`)
+                $('.satuans'+i).append(`<option value="${satuan.id}" data-value_satuan="${satuan.harga}">${satuan.satuan.satuan} Rp. ${satuan.harga}</option>`)
                 // $('.harga_satuan');
             });
             return data;
@@ -155,7 +155,7 @@
 
         function calculateHarga(i) {
             var qty = $('.qty'+i).val();
-            var satuan = $('.satuans'+i).find("option").filter(":selected").val();;
+            var satuan = $('.satuans'+i).find("option").filter(":selected").data("value_satuan");;
 
             var harga_satuan = qty * satuan;
 
