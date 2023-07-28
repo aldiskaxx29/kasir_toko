@@ -38,7 +38,8 @@
                                             @csrf
                                             @method('delete')
                                             <a href="#" class="btn btn-info btn-sm" data-toggle="modal"
-                                                data-target="#exampleModal{{ $item->id }}"><i class="fas fa-edit"></i></a>
+                                                data-target="#exampleModal{{ $item->id }}"><i
+                                                    class="fas fa-edit"></i></a>
                                             <button onclick="return confirm('Yakin ingin di hapus?')" type="submit"
                                                 class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                                         </form>
@@ -98,7 +99,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal Tambah</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Ubah Data</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

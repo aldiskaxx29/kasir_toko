@@ -13,6 +13,7 @@ class Transaksi extends Model
 
     protected $fillable = [
         'no_order',
+        'nama_pelanggan',
         'nama_kasir',
         'total_produk',
         'total_harga',
@@ -20,4 +21,8 @@ class Transaksi extends Model
         'kembalian'
     ];
 
+    public function detailTransaksi()
+    {
+        return $this->hasOne('App\Models\DetailTransaksi', 'transaksi_id', 'id');
+    }
 }

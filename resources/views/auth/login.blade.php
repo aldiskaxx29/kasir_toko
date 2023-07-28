@@ -89,7 +89,7 @@
                                         </div>
                                     </div> --}}
 
-                                    <div id="clock" class="text-center text-danger"></div>
+                                    {{-- <div id="clock" class="text-center text-danger"></div> --}}
 
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-danger btn-lg btn-block" tabindex="4">

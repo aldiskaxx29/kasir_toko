@@ -49,7 +49,8 @@
                                         <form action="{{ route('users.destroy', $item->id) }}" method="post">
                                             @csrf
                                             @method('delete')
-                                            <a href="#" data-toggle="modal" data-target="#exampleModal{{ $item->id }}"
+                                            <a href="#" data-toggle="modal"
+                                                data-target="#exampleModal{{ $item->id }}"
                                                 class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                             <button onclick="return confirm('Yakin ingin di hapus')" type="submit"
                                                 class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
@@ -77,7 +78,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal Tambah</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah User</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -102,7 +103,8 @@
                         </div>
                         <div class="form-group">
                             <label for="">Konfirmasi Password</label>
-                            <input type="password" class="form-control" name="password_konfirmasi" placeholder="Password Konfirmasi">
+                            <input type="password" class="form-control" name="password_konfirmasi"
+                                placeholder="Password Konfirmasi">
                         </div>
                         <div class="form-group">
                             <label for="">Role User</label>
@@ -138,7 +140,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal Tambah</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Ubah User</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -173,7 +175,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Konfirmasi Password</label>
-                                <input type="password" class="form-control" name="password_konfirmasi" placeholder="Konfirmasi Password">
+                                <input type="password" class="form-control" name="password_konfirmasi"
+                                    placeholder="Konfirmasi Password">
                                 @error('password_konfirmasi')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
@@ -181,7 +184,8 @@
                             <div class="form-group">
                                 <label for="">Role User</label>
                                 <select name="role_user" class="form-control" id="">
-                                    <option value="2" @if ($item->role_user == '2') selected @endif>Kepala Toko</option>
+                                    <option value="2" @if ($item->role_user == '2') selected @endif>Kepala Toko
+                                    </option>
                                     <option value="1" @if ($item->role_user == '1') selected @endif>Kasir</option>
                                 </select>
                                 @error('role_user')

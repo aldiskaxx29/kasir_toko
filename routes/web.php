@@ -22,6 +22,7 @@ use App\Http\COntrollers\KepalaToko\DashboardTokoController;
 use App\Http\COntrollers\KepalaToko\BarangMasukController;
 use App\Http\COntrollers\KepalaToko\BarangKeluarController;
 use App\Http\COntrollers\KepalaToko\LaporanBarangController;
+use App\Http\Controllers\KepalaToko\LaporanKeuanganController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,11 +51,12 @@ Route::get('/', function () {
 Route::get('login', [AuthController::class, 'index'])->name('index');
 Route::post('login', [AuthController::class, 'users'])->name('login');
 Route::get('registrasi', [AuthController::class, 'regist'])->name('regist');
-Route::post('daftar',[AuthController::class, 'daftar'])->name('daftar');
+Route::post('daftar', [AuthController::class, 'daftar'])->name('daftar');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('search-barang', [DataBarangController::class, 'typeahead'])->name('typeahead');
 
-Route::group(['middleware' => 'authLogin'], function(){
-    Route::get('dashboard', [DashboardUserController::class, 'index']);
+Route::group(['middleware' => 'authLogin'], function () {
+    // Route::get('dashboard', [DashboardUserController::class, 'index']);
     Route::get('dashboard-admin', [DashboardAdminController::class, 'index'])->name('dashboard.admin');
     Route::get('profile', [DashboardAdminController::class, 'profile'])->name('profile');
     Route::get('bottom', [DashboardAdminController::class, 'bottom'])->name('bottom');
@@ -78,12 +80,12 @@ Route::group(['middleware' => 'authLogin'], function(){
     //branng masuk
     Route::get('barangMasuk', [BarangMasukController::class, 'index'])->name('barangMasuk');
     Route::post('tambahDataMasuk', [BarangMasukController::class, 'save'])->name('tambahBarangMasuk');
-    Route::post('ubahDataMasuk/{id}', [BarangMasukController::class, 'ubah'])->name('ubah.barang.keluar');
+    Route::post('ubahDataMasuk/{id}', [BarangMasukController::class, 'ubah'])->name('ubah.barang.masuk');
     Route::delete('hapusDataMasuk/{id}', [BarangMasukController::class, 'hapus'])->name('hapus.barang.masuk');
     //barang keluar
     Route::get('barangKeluar', [BarangKeluarController::class, 'index'])->name('barangKeluar');
     Route::post('tambahDataKeluar', [BarangKeluarController::class, 'save'])->name('tambahBarangKeluar');
-    Route::post('ubahDataKeluar/{id}', [BarangKeluarController::class, 'ubah']);
+    Route::post('ubahDataKeluar/{id}', [BarangKeluarController::class, 'ubah'])->name('ubah.barang.keluar');
     Route::delete('hapusDataKeluar/{id}', [BarangKeluarController::class, 'hapus'])->name('hapus.barang.keluar');
     //lraporan
     Route::get('laporan', [LaporanBarangController::class, 'index'])->name('laporan');
@@ -94,6 +96,15 @@ Route::group(['middleware' => 'authLogin'], function(){
     Route::get('cetak-masuk/{dari}/{sampai}', [LaporanBarangController::class, 'cetakMasuk']);
     Route::get('cetak-keluar/{dari}/{sampai}', [LaporanBarangController::class, 'cetakKeluar']);
     // Route::post('filterLaporan', [LaporanBarangController::class, 'filter'])->name('filter');
+    //laporan keuangan
+    Route::get('laporan/laporan-keuangan-harian', [LaporanKeuanganController::class, 'laporanHarian'])->name('laporan-harian');
+    Route::post('laporan/laporan-keuangan-harian/action', [LaporanKeuanganController::class, 'laporanHarianAction'])->name('laporan-keuangan-harian-action');
+    Route::get('laporan/laporan-keuangan-harian/cetak/{tanggal}', [LaporanKeuanganController::class, 'cetakLaporanHarian'])->name('cetak.laporan.harian');
+    // Route::get('laporan/laporan-keuangan-harian/filter', [LaporanKeuanganController::class, 'filter'])
+    Route::get('laporan/laporan-keuangan-bulanan', [LaporanKeuanganController::class, 'laporanBulanan'])->name('laporan-bulanan');
+    Route::post('laporan/laporan-keuangan-bulanan/action', [LaporanKeuanganController::class, 'laporanBUlananAction'])->name('laporan.keuangan.bulanan.action');
+    Route::get('laporan/laporan-keuangan-bulanan/cetak/{bulan}/{tahun}', [LaporanKeuanganController::class, 'cetakLaporanBulanan']);
+    Route::get('laporan/laporan-keuangan-tahunan', [LaporanKeuanganController::class, 'laporanTahunan'])->name('laporan-tahunan');
 
     Route::post('ubah-profile', [DataUserController::class, 'ubahProfile'])->name('ubah.profile');
 });

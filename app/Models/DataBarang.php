@@ -16,10 +16,17 @@ class DataBarang extends Model
         'harga',
         'harga_pcs',
         'harga_dus',
-        'harga_slop'
+        'harga_slop',
+        'harga_modal'
     ];
 
-    public function satuan(){
-        return $this->belongsTo('App\Models\SatuanBarang','satuan_id');
+    public function satuan()
+    {
+        return $this->belongsTo('App\Models\SatuanBarang', 'satuan_id');
+    }
+
+    public function harga()
+    {
+        return $this->hasOne('App\Models\HargaPerSatuan', 'id');
     }
 }

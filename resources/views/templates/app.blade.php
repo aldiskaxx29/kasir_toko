@@ -15,13 +15,15 @@
 
     <!-- CSS Libraries -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.0/css/dataTables.bootstrap4.min.css">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
+
 
     <!-- Template CSS -->
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
 
     <style>
-        .selects{
+        .selects {
             /* height: 150px; */
             /* overflow-x: 'auto'; */
         }
@@ -55,8 +57,10 @@
     @stack('add-script')
 
     <!-- General JS Scripts -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
     </script>
@@ -65,15 +69,19 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="../assets/js/stisla.js"></script>
+    <script src="{{ asset('assets/js/stisla.js') }}"></script>
 
     <!-- JS Libraies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"
+        integrity="sha512-HWlJyU4ut5HkEj0QsK/IxBCY55n5ZpskyjVlAoV9Z7XQwwkqXoYdCIC93/htL3Gu5H3R4an/S0h2NXfbZk3g7w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
     <script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.0/js/dataTables.bootstrap4.min.js"></script>
-    
+
 
     <!-- Template JS File -->
-    <script src="../assets/js/scripts.js"></script>
+    <script src="{{ asset('assets/js/scripts.js') }}"></script>
 
     <!-- Page Specific JS File -->
     <script>
@@ -109,12 +117,12 @@
             getBarang(event.target.value, a).then(barang => {
                 console.log('apaan', barang)
                 console.log('a', a)
-                
+
                 // $('.harga_satuan'+a).val(barang.harga).change()
             })
         }
 
-        async function getBarang(id, i){
+        async function getBarang(id, i) {
             let response = await fetch('/api/produk/' + id)
             let data = await response.json();
             // console.log(data)
@@ -122,10 +130,12 @@
             let satuans = await fetch('/api/barang-satuan/' + data.id)
             let data1 = await satuans.json();
             console.log('satuan ni', data1)
-            $('.satuans'+i).html("");
+            $('.satuans' + i).html("");
             data1.forEach(satuan => {
                 // console.log('ada',satuan.harga)
-                $('.satuans'+i).append(`<option value="${satuan.id}" data-value_satuan="${satuan.harga}">${satuan.satuan.satuan} Rp. ${satuan.harga}</option>`)
+                $('.satuans' + i).append(
+                    `<option value="${satuan.id}" data-value_satuan="${satuan.harga}">${satuan.satuan.satuan} Rp. ${satuan.harga}</option>`
+                )
                 // $('.harga_satuan');
             });
             return data;
@@ -145,7 +155,7 @@
         //     let satuans = await fetch('/api/barang-satuan/' + data.id)
         //     let data1 = await satuans.json();
         //     console.log('satuan ni', data1)
-            
+
         //     data1.forEach(satuan => {
         //         // console.log('ada',satuan.harga)
         //         $('#satuans').append(`<option value="">${satuan.satuan.satuan} Rp. ${satuan.harga}</option>`)
@@ -154,28 +164,40 @@
         // }
 
         function calculateHarga(i) {
-            var qty = $('.qty'+i).val();
-            var satuan = $('.satuans'+i).find("option").filter(":selected").data("value_satuan");;
+            var qty = $('.qty' + i).val();
+            var satuan = $('.satuans' + i).find("option").filter(":selected").data("value_satuan");;
 
             var harga_satuan = qty * satuan;
 
-            $('#harga_satuan'+i).val(harga_satuan);
+            $('#harga_satuan' + i).val(harga_satuan);
         }
 
         $(document).ready(function() {
             $('#calculate_total_harga').click(function() {
                 var total_harga = 0;
-                
+
                 $('.harga_satuan').each(function() {
                     total_harga += +$(this).val();
                 });
-                
+
                 $('#total_harga').val(total_harga);
             })
         })
 
+        var path = "{{ route('typeahead') }}"
+        console.log('type', path);
+        $('#typeahead').typeahead({
+            source: function(query, process) {
+                return $.get(path, {
+                    query: query
+                }, function(data) {
+                    console.log('data', data)
+                    return process(data)
+                })
+            }
+        })
     </script>
-    
+
     @stack('addon-script')
 
     {{-- <script>

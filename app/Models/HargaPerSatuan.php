@@ -18,4 +18,8 @@ class HargaPerSatuan extends Model
     public function satuan(){
         return $this->belongsTo('App\Models\SatuanBarang','satuan_id');
     }
+
+    public function barang(){
+        return $this->belongsTo('App\Models\DataBarang','barang_id');
+    }
 }

@@ -25,7 +25,7 @@
                                 <button type="submit" class="btn btn-primary">Cari</button>
                             </form>
                         </div>
-                    </div>
+                    </div>we
                 </div>
             </div>
         </div>
@@ -34,7 +34,8 @@
         <div class="col">
             <div class="card">
                 @if ($data)
-                    <a href="{{ url('cetak-pdf') }}/{{ $dari }}/{{ $sampai }}" class="btn btn-danger m-3" style="width: 100px;" target="_blank"><i class="fas fa-print"></i> Cetak</a>
+                    <a href="{{ url('cetak-pdf') }}/{{ $dari }}/{{ $sampai }}" class="btn btn-danger m-3"
+                        style="width: 100px;" target="_blank"><i class="fas fa-print"></i> Cetak</a>
                 @endif
                 <div class="card-body">
                     <table class="table table-striped" id="dataTable">
@@ -44,23 +45,26 @@
                                 <th>No Order</th>
                                 <th>Nama Barang</th>
                                 <th>Quantity</th>
-                                <th>Harga Satuan</th>
+                                {{-- <th>Harga Satuan</th> --}}
                                 <th>Total Harga</th>
                                 <th>Pembayaran</th>
                                 <th>Kembalian</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                
+                            @endphp
                             @forelse ($data as $no => $item)
                                 <tr>
                                     <td>{{ $no + 1 }}</td>
-                                    <td>{{ $item->no_order }}</td>
+                                    <td>{{ $item->transaksi->no_order }}</td>
                                     <td>{{ $item->barang->nama_barang }}</td>
-                                    <td>{{ $item->quantity }}</td>
-                                    <td>Rp. {{ number_format($item->harga_satuan,0,',','.') }}</td>
-                                    <td>Rp. {{ number_format($item->total_harga,0,',','.') }}</td>
-                                    <td>Rp. {{ number_format($item->pembayaran,0,',','.') }}</td>
-                                    <td>Rp. {{ number_format($item->kembalian,0,',','.') }}</td>
+                                    <td>{{ $item->transaksi->total_produk }}</td>
+                                    {{-- <td>Rp. {{ number_format($item->harga_satuan, 0, ',', '.') }}</td> --}}
+                                    <td>Rp. {{ number_format($item->transaksi->total_harga, 0, ',', '.') }}</td>
+                                    <td>Rp. {{ number_format($item->transaksi->pembayaran, 0, ',', '.') }}</td>
+                                    <td>Rp. {{ number_format($item->transaksi->kembalian, 0, ',', '.') }}</td>
                                 </tr>
                             @empty
                                 <tr>

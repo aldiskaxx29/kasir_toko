@@ -16,18 +16,21 @@ class DetailTransaksi extends Model
         'barangs_id',
         'quantity',
         'satuan_id',
-        'harga_satuan'
+        'sub_total'
     ];
 
-    public function transaksi(){
-        return $this->belongsTo('App\Models\Transaksi','transaksi_id');
+    public function transaksi()
+    {
+        return $this->belongsTo('App\Models\Transaksi', 'transaksi_id');
     }
 
-    public function barang(){
-        return $this->belongsTo('App\Models\DataBarang','barangs_id');
+    public function barang()
+    {
+        return $this->belongsTo('App\Models\DataBarang', 'barangs_id');
     }
 
-    public function satuan(){
-        return $this->belongsTo('App\Models\SatuanBarang','satuan_id');
+    public function satuan()
+    {
+        return $this->belongsTo('App\Models\SatuanBarang', 'satuan_id');
     }
 }

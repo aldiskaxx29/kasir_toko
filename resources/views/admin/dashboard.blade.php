@@ -3,32 +3,34 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
+        function drawChart() {
 
-        var data = google.visualization.arrayToDataTable([
-          ['Nama', 'Qty'],
-          <?php 
-          echo $diagram
-          
-          ?>
-        ]);
+            var data = google.visualization.arrayToDataTable([
+                ['Nama', 'Qty'],
+                <?php
+                echo $diagram;
+                
+                ?>
+            ]);
 
-        var options = {
-          title: 'Data Pembelian'
-        };
+            var options = {
+                title: 'Data Pembelian'
+            };
 
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
-        chart.draw(data, options);
-      }
+            chart.draw(data, options);
+        }
     </script>
 
-    <section class="section"> 
+    <section class="section">
         <div class="section-header">
             <h1>Dashboard</h1>
         </div>
@@ -98,50 +100,28 @@
                         </div>
                     </div>
                     <div class="row mt-4">
-                        <div class="col-md-6 col">
-                            <div id="piechart" style="width: 100%; height: 500px;"></div>
-                        </div>
-                        <div class="col-md-6">
-                            <h4>Data Bulan Ini</h4>
+                        <div class="col-md-12">
+                            <h4>Data Pembelian Bulan Ini</h4>
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
                                         <th>No</th>
                                         <th>No Order</th>
                                         <th>Total Produk</th>
-                                        <th>Total Harga</th>    
-                                    </tr> 
+                                        <th>Total Harga</th>
+                                        <th>Pembayaran</th>
+                                        <th>Kembalian</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $no => $d)
                                         <tr>
-                                            <td>{{ $no+1 }}</td>
-                                            <td>{{ $d->no_order }}</td>    
-                                            <td>{{ $d->total_produk }}</td>    
-                                            <td>Rp. {{ number_format($d->total_harga,0,',','.') }}</td>    
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <h4>Data Bulan Ini</h4>
-                            <table class="table" id="dataTable">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Data</th>
-                                        <th>No Order</th>
-                                        <th>Bulan</th>   
-                                    </tr> 
-                                </thead>
-                                <tbody>
-                                    @foreach ($p as $no => $a)
-                                        <tr>
-                                            <td>{{ $no+1 }}</td>
-                                            <td>{{ $a->data }}</td>    
-                                            <td>{{ $a->year }}</td>    
-                                            <td>{{ Carbon\Carbon::parse(11)->format('m') }}</td>
+                                            <td>{{ $no + 1 }}</td>
+                                            <td>{{ $d->no_order }}</td>
+                                            <td>{{ $d->total_produk }}</td>
+                                            <td>Rp. {{ number_format($d->total_harga, 0, ',', '.') }}</td>
+                                            <td>Rp. {{ number_format($d->pembayaran, 0, ',', '.') }}</td>
+                                            <td>Rp. {{ number_format($d->kembalian, 0, ',', '.') }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

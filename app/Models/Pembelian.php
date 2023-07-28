@@ -9,6 +9,8 @@ class Pembelian extends Model
 {
     use HasFactory;
 
+    protected $table = 'pembelians';
+
     protected $fillable = [
         'no_order',
         'nama_kasir',
@@ -21,11 +23,13 @@ class Pembelian extends Model
         'kembalian'
     ];
 
-    public function barang(){
-        return $this->belongsTo('App\Models\DataBarang','barangs_id');
+    public function barang()
+    {
+        return $this->belongsTo('App\Models\DataBarang', 'barangs_id');
     }
 
-    public function satuan(){
-        return $this->belongsTo('App\Models\SatuanBarang','satuan_id');
+    public function satuan()
+    {
+        return $this->belongsTo('App\Models\SatuanBarang', 'satuan_id');
     }
 }

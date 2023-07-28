@@ -11,18 +11,19 @@
             <div class="card">
                 <div class="card-body" style="overflow-x:scroll;">
                     @if (session('data-pembelian'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">{{ session('data-pembelian') }}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('data-pembelian') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
                     @elseif (session('pembelian_error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">{{ session('pembelian_error') }}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('pembelian_error') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
                     @endif
-                    <a href="{{ route('data-pembelian.create') }}" class="btn btn-primary" ><i
-                            class="fas fa-plus"></i>
+                    <a href="{{ route('data-pembelian.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i>
                         Tambah Data</a>
                     <hr>
                     <div style="overflow-x: auto;">
@@ -31,6 +32,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th style="width: 130px;">No Pembelian</th>
+                                    <th>Nama Pembeli</th>
                                     <th>Nama Kasir</th>
                                     {{-- <th style="width:100px;">Nama Barang</th>
                                     <th>Satuan</th> --}}
@@ -38,7 +40,7 @@
                                     {{-- <th style="width:100px;">Harga Satuan</th> --}}
                                     <th style="width:100px;">Total Harga</th>
                                     <th>Pembayaran</th>
-                                    <th>Kembalian</th>
+                                    {{-- <th>Kembalian</th> --}}
                                     <th style="width:100px;">Action</th>
                                 </tr>
                             </thead>
@@ -47,19 +49,21 @@
                                     <tr>
                                         <td>{{ $no + 1 }}</td>
                                         <td>{{ $item->no_order }}</td>
+                                        <td>{{ $item->nama_pelanggan }}</td>
                                         <td>{{ $item->nama_kasir }}</td>
                                         {{-- <td>{{ $item->barang->nama_barang }}</td> --}}
                                         {{-- <td>{{ $item->satuan->satuan }}</td> --}}
                                         <td>{{ $item->total_produk }}</td>
                                         {{-- <td>Rp. {{ number_format($item->harga_satuan,0,',','.') }}</td> --}}
-                                        <td>Rp. {{ number_format($item->total_harga,0,',','.') }}</td>
-                                        <td>Rp. {{ number_format( $item->pembayaran,0,',','.') }}</td>
-                                        <td>Rp. {{ number_format($item->kembalian,0,',','.') }}</td>
+                                        <td>Rp. {{ number_format($item->total_harga, 0, ',', '.') }}</td>
+                                        <td>Rp. {{ number_format($item->pembayaran, 0, ',', '.') }}</td>
+                                        {{-- <td>Rp. {{ number_format($item->kembalian,0,',','.') }}</td> --}}
                                         <td style="width:100px;">
                                             <form action="{{ route('data-pembelian.destroy', $item->id) }}" method="post">
                                                 @csrf
                                                 @method('delete')
-                                                <a href="{{ route('cetak_struk', $item->id) }}" target="_blank" class="btn btn-warning btn-sm"><i class="fas fa-print"></i></a>
+                                                <a href="{{ route('cetak_struk', $item->id) }}" target="_blank"
+                                                    class="btn btn-warning btn-sm"><i class="fas fa-print"></i></a>
                                                 {{-- <a href="#" class="btn btn-info btn-sm" data-toggle="modal"
                                                     data-target="#exampleModal{{ $item->id }}"><i class="fas fa-edit"></i></a> --}}
                                                 <button onclick="return confirm('Yakin ingin di hapus?')" type="submit"
@@ -229,10 +233,9 @@
 
 
 
-{{-- <script>
+    {{-- <script>
     $(document).ready(function(){
         
     })
 </script> --}}
-
 @endpush

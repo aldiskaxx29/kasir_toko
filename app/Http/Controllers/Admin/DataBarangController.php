@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DataBarang;
 use App\Models\SatuanBarang;
+use App\Models\HargaPerSatuan;
 use Auth;
 
 class DataBarangController extends Controller
@@ -17,9 +18,10 @@ class DataBarangController extends Controller
      */
     public function index()
     {
-        $barang = DataBarang::all();
+        $barang = DataBarang::with('harga')->get();
+        // dd($barang);
         $satuan = SatuanBarang::all();
-        return view('admin.data_barang.index', compact('barang','satuan'));
+        return view('admin.data_barang.index', compact('barang', 'satuan'));
     }
 
     /**
@@ -44,8 +46,9 @@ class DataBarangController extends Controller
         $request->validate([
             'nama_barang' => 'required',
             'stok' => 'required',
+            'harga_modal' => 'required'
         ]);
-        
+
         // $file = $request->file('foto_produk');
         // $name = time();
         // $extension = $file->getClientOriginalExtension();
@@ -54,9 +57,33 @@ class DataBarangController extends Controller
         // Storage::putFileAs('public/images', $request->file('foto_produk'), $newName);
 
         $data = $request->post();
-        DataBarang::create($data);
+        $barang = DataBarang::create($data);
 
-        return redirect()->route('data-barang.index')->with('data_barang','Data Berhasil di tambahkan');
+        if ($request->harga_pcs) {
+            $harga = new HargaPerSatuan();
+            $harga->barang_id = $barang->id;
+            $harga->satuan_id = 1;
+            $harga->harga = $request->harga_pcs;
+            $harga->save();
+        }
+
+        if ($request->harga_dus) {
+            $harga = new HargaPerSatuan();
+            $harga->barang_id = $barang->id;
+            $harga->satuan_id = 2;
+            $harga->harga = $request->harga_dus;
+            $harga->save();
+        }
+
+        if ($request->harga_slop) {
+            $harga = new HargaPerSatuan();
+            $harga->barang_id = $barang->id;
+            $harga->satuan_id = 3;
+            $harga->harga = $request->harga_slop;
+            $harga->save();
+        }
+
+        return redirect()->route('data-barang.index')->with('data_barang', 'Data Berhasil di tambahkan');
     }
 
     /**
@@ -95,12 +122,13 @@ class DataBarangController extends Controller
         $request->validate([
             'nama_barang' => 'required',
             'stok' => 'required',
-         ]);
+        ]);
 
         $data = $request->post();
         $barang = DataBarang::findOrFail($id);
         $barang->update($data);
-        return redirect()->route('data-barang.index')->with('data_barang','Data berhasil di ubah');
+
+        return redirect()->route('data-barang.index')->with('data_barang', 'Data berhasil di ubah');
     }
 
     /**
@@ -112,6 +140,15 @@ class DataBarangController extends Controller
     public function destroy($id)
     {
         DataBarang::findOrFail($id)->delete();
-        return redirect()->route('data-barang.index')->with('data_barang','Data berhasil di hapus');
+        return redirect()->route('data-barang.index')->with('data_barang', 'Data berhasil di hapus');
+    }
+
+    public function typeahead(Request $request)
+    {
+        $data = DataBarang::select('nama_barang')
+            ->where('nama_barang', 'LIKE', '%' . $request->get('query') . '%')
+            ->get();
+
+        return response()->json($data);
     }
 }

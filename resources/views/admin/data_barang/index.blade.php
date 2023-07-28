@@ -11,7 +11,8 @@
             <div class="card">
                 <div class="card-body" style="overflow-x:scroll;">
                     @if (session('data_barang'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">{{ session('data_barang') }}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('data_barang') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
@@ -26,9 +27,10 @@
                                 <th>No</th>
                                 <th>Nama Barang</th>
                                 <th>Stok</th>
-                                <th>Harga Pcs</th>
-                                <th>Harga Dus</th>
-                                <th>Harga Slop</th>
+                                <th>Harga Jual Pcs</th>
+                                <th>Harga Jual Dus</th>
+                                <th>Harga Jual Slop</th>
+                                <th>Harga Modal</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -37,39 +39,41 @@
                                 @foreach ($barang as $no => $item)
                                     <tr>
                                         <td>{{ $no + 1 }}</td>
-                                        <td>{{ $item->nama_barang }}</td>
+                                        <td class="text-capitalize">{{ $item->nama_barang }}</td>
                                         <td>{{ $item->stok }}</td>
                                         <td>
                                             @if (!$item->harga_pcs)
                                                 -
                                             @else
-                                            Rp. {{ number_format($item->harga_pcs,0,',','.') }}
+                                                Rp. {{ number_format($item->harga_pcs, 0, ',', '.') }}
                                             @endif
                                         </td>
                                         <td>
                                             @if (!$item->harga_dus)
                                                 -
                                             @else
-                                            Rp. {{ number_format($item->harga_dus,0,',','.') }}
+                                                Rp. {{ number_format($item->harga_dus, 0, ',', '.') }}
                                             @endif
                                         </td>
                                         <td>
                                             @if (!$item->harga_slop)
                                                 -
                                             @else
-                                            Rp. {{ number_format($item->harga_slop,0,',','.') }}
+                                                Rp. {{ number_format($item->harga_slop, 0, ',', '.') }}
                                             @endif
                                         </td>
-                                        {{-- <td>
-                                            <img src="{{ url('storage/' . $item->foto_produk) }}" alt="" width="100">
-                                        </td> --}}
+                                        <td>
+                                            Rp. {{ number_format($item->harga_modal) }}
+                                        </td>
                                         <td>
                                             <form action="{{ route('data-barang.destroy', $item->id) }}" method="post">
                                                 @csrf
                                                 @method('delete')
                                                 <a href="#" class="btn btn-warning btn-sm" data-toggle="modal"
-                                                    data-target="#modalDetail{{ $item->id }}"><i class="fas fa-eye"></i></a>
-                                                <a href="#" data-toggle="modal" data-target="#modalEdit{{ $item->id }}"
+                                                    data-target="#modalDetail{{ $item->id }}"><i
+                                                        class="fas fa-eye"></i></a>
+                                                <a href="#" data-toggle="modal"
+                                                    data-target="#modalEdit{{ $item->id }}"
                                                     class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                                 <button type="submit" class="btn btn-danger btn-sm"
                                                     onclick="return confirm('Yakin ingin di hapus?')"><i
@@ -129,7 +133,8 @@
                         @csrf
                         <div class="form-group">
                             <label for="">Nama Barang</label>
-                            <input type="text" class="form-control" placeholder="Nama Barang" name="nama_barang" id="nama_barang">
+                            <input type="text" class="form-control" placeholder="Nama Barang" name="nama_barang"
+                                id="nama_barang">
                             @error('nama_barang')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -162,6 +167,13 @@
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
+                        <div class="form-group">
+                            <label for="">Harga Modal</label>
+                            <input type="number" class="form-control" name="harga_modal" placeholder="Masukan Harga Modal">
+                            @error('harga_modal')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
                         {{-- <div class="form-group">
                             <label for="">Foto Produk</label>
                             <img class="img-preview" width="50%" alt="">
@@ -188,7 +200,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal Ubah</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Ubah Data</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -216,21 +228,24 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Harga Psc</label>
-                                <input type="number" class="form-control" name="harga_pcs" placeholder="Masukan Harga Pcs" value="{{ $item->harga_pcs }}">
+                                <input type="number" class="form-control" name="harga_pcs"
+                                    placeholder="Masukan Harga Pcs" value="{{ $item->harga_pcs }}">
                                 @error('harga_pcs')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="">Harga Dus</label>
-                                <input type="number" class="form-control" name="harga_dus" placeholder="Masukan Harga Dus" value="{{ $item->harga_dus }}">
+                                <input type="number" class="form-control" name="harga_dus"
+                                    placeholder="Masukan Harga Dus" value="{{ $item->harga_dus }}">
                                 @error('harga_pcs')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="">Harga Slop</label>
-                                <input type="number" class="form-control" name="harga_slop" placeholder="Masukan Harga Slop" value="{{ $item->harga_slop }}">
+                                <input type="number" class="form-control" name="harga_slop"
+                                    placeholder="Masukan Harga Slop" value="{{ $item->harga_slop }}">
                                 @error('harga_dus')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
@@ -272,17 +287,17 @@
                 <div class="modal-content">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5>Modal Detail</h5>
+                            <h5>Detail Data</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-4">
+                                {{-- <div class="col-4">
                                     <img src="{{ url('storage', $item->foto_produk) }}" alt="" class="w-100">
-                                </div>
-                                <div class="col-8">
+                                </div> --}}
+                                <div class="col">
                                     <table class="table">
                                         <tr>
                                             <th>Nama barang</th>
@@ -293,8 +308,28 @@
                                             <td>{{ $item->stok }}</td>
                                         </tr>
                                         <tr>
-                                            <th>Harga</th>
-                                            <td>{{ $item->harga }}</td>
+                                            <th>Harga Pcs</th>
+                                            @if ($item->harga_pcs)
+                                                <td>Rp. {{ number_format($item->harga_pcs, 0, ',', '.') }}</td>
+                                            @else
+                                                <td>-</td>
+                                            @endif
+                                        </tr>
+                                        <tr>
+                                            <th>Harga Dus</th>
+                                            @if ($item->harga_dus)
+                                                <td>Rp. {{ number_format($item->harga_dus, 0, ',', '.') }}</td>
+                                            @else
+                                                <td>-</td>
+                                            @endif
+                                        </tr>
+                                        <tr>
+                                            <th>Harga Slop</th>
+                                            @if ($item->harga_slop)
+                                                <td>Rp. {{ number_format($item->harga_slop, 0, ',', '.') }}</td>
+                                            @else
+                                                <td>-</td>
+                                            @endif
                                         </tr>
                                     </table>
                                 </div>
@@ -307,7 +342,7 @@
     @endforeach
 
     {{-- Modal Barcode --}}
-    @foreach ($barang as $item)
+    {{-- @foreach ($barang as $item)
         <div class="modal fade" id="exampleModalCenter{{ $item->id }}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -320,12 +355,11 @@
                     <div class="modal-body">
                         <div class="visible-print text-center">
                             {!! QrCode::size(200)->generate($item->nama_barang . $item->stok . $item->harga) !!}
-                            {{-- <p>Scan me </p> --}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    @endforeach
+    @endforeach --}}
 
 @endpush

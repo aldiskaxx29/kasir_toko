@@ -14,7 +14,7 @@
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                             <div class="card card-statistic-1">
                                 <div class="card-icon bg-primary">
-                                    <i class="far fa-user"></i>
+                                    <i class="fas fa-drumstick-bite"></i>
                                 </div>
                                 <div class="card-wrap">
                                     <div class="card-header">
@@ -29,7 +29,7 @@
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                             <div class="card card-statistic-1">
                                 <div class="card-icon bg-info">
-                                    <i class="far fa-newspaper"></i>
+                                    <i class="far fa-calendar-plus"></i>
                                 </div>
                                 <div class="card-wrap">
                                     <div class="card-header">
@@ -44,7 +44,7 @@
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                             <div class="card card-statistic-1">
                                 <div class="card-icon bg-warning">
-                                    <i class="far fa-file"></i>
+                                    <i class="far fa-calendar-minus"></i>
                                 </div>
                                 <div class="card-wrap">
                                     <div class="card-header">
@@ -59,7 +59,7 @@
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                             <div class="card card-statistic-1">
                                 <div class="card-icon bg-secondary">
-                                    <i class="fas fa-circle"></i>
+                                    <i class="fas fa-users"></i>
                                 </div>
                                 <div class="card-wrap">
                                     <div class="card-header">
@@ -70,6 +70,36 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <h4>Data Pembelian PerBulan Ini</h4>
+                            <table class="table" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No Order</th>
+                                        <th>Total Produk</th>
+                                        <th>Total Harga</th>
+                                        <th>Pembayaran</th>
+                                        <th>Kembalian</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($data as $no => $d)
+                                        <tr>
+                                            <td>{{ $no + 1 }}</td>
+                                            <td>{{ $d->no_order }}</td>
+                                            <td>{{ $d->total_produk }}</td>
+                                            <td>Rp. {{ number_format($d->total_harga, 0, ',', '.') }}</td>
+                                            <td>Rp. {{ number_format($d->pembayaran, 0, ',', '.') }}</td>
+                                            <td>Rp. {{ number_format($d->kembalian, 0, ',', '.') }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
